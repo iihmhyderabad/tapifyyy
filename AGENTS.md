@@ -1,0 +1,6 @@
+- Serve direct blank-card activation on the existing `/r/$qrCode` GET/POST route using the publishable client and a conditional blank-destination update; this preserves printed URLs, avoids schema changes, and prevents this flow from overwriting activated cards.
+- Keep scan and activation responses uncached and use temporary redirects; dashboard destination changes must remain effective for already printed cards.
+- Store Card Designs cards in the existing qr_records table with reserved CD-GOOGLE- and CD-INSTAGRAM- prefixes; exclude these prefixes from legacy dashboard/print queries so activation is shared but lists stay separate.
+- Use shared browser-only export controls for all card collections: SVG primitives and vector PDF preserve QR/text overlays and original raster artwork; PSD keeps artwork, QR and ID on separate 600-PPI layers, and PNG uses an 8K edge. Dynamically import PDF/PSD libraries in export handlers to keep browser dependencies out of SSR.
+- Render all printed card collections with a shared master-artwork component, overlaying only QR and ID slots; this preserves the uploaded artwork pixels and keeps previews and exports consistent.
+- Encode printed QR URLs with the fixed public site origin (src/lib/qr-base.ts), never window.location; preview hosts are gated and return proxy 404s to phone scanners.

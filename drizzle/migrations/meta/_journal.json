@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1792783108441,
+      "tag": "0000_create_qr_records_and_roles",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792783138705,
+      "tag": "0001_create_admin_account",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793673613646,
+      "tag": "0002_add_user_permissions_and_lock_qr_writes",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793673642264,
+      "tag": "0003_allow_super_admin_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793930665384,
+      "tag": "0004_reopen_qr_writes_no_login",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Dynamic QR Manager — premium white / black / gold design system.
+ * All colors are oklch semantic tokens registered in @theme inline.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-deep: var(--gold-deep);
+  --color-ink: var(--ink);
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.975 0.004 90);
+  --foreground: oklch(0.17 0.008 80);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.17 0.008 80);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.17 0.008 80);
+  --primary: oklch(0.17 0.008 80);
+  --primary-foreground: oklch(0.985 0.004 90);
+  --secondary: oklch(0.955 0.006 90);
+  --secondary-foreground: oklch(0.17 0.008 80);
+  --muted: oklch(0.955 0.006 90);
+  --muted-foreground: oklch(0.5 0.012 85);
+  --accent: oklch(0.955 0.02 88);
+  --accent-foreground: oklch(0.17 0.008 80);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0.004 90);
+  --border: oklch(0.9 0.008 90);
+  --input: oklch(0.9 0.008 90);
+  --ring: oklch(0.78 0.13 85);
+  --gold: oklch(0.78 0.135 85);
+  --gold-soft: oklch(0.92 0.06 88);
+  --gold-deep: oklch(0.66 0.12 80);
+  --ink: oklch(0.14 0.006 80);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-accent hover:text-foreground;
+  }
+  .field-label {
+    @apply mb-1.5 block text-sm font-semibold text-foreground;
+  }
+  .field-input {
+    @apply w-full rounded-lg border border-input bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40;
+  }
+  .stat-card {
+    @apply rounded-2xl border border-border bg-card p-5 shadow-sm;
+  }
+}
+
+/* 4x4 inch NFC card printing: one card per page, zero margins */
+.card-export-staging { position: fixed; left: -10000px; top: 0; width: 384px; height: 384px; pointer-events: none; }
+.master-nfc-card { position: relative; width: 384px; height: 384px; overflow: hidden; }
+.master-nfc-artwork { display: block; width: 100%; height: 100%; }
+.master-nfc-qr { position: absolute; left: 60%; top: 41.9%; width: 30.2%; height: 30.2%; background: var(--card); }
+.master-nfc-qr svg { display: block; width: 100%; height: 100%; }
+.master-nfc-id { position: absolute; left: 60%; top: 77.9%; width: 30.2%; height: 4.1%; display: flex; align-items: center; justify-content: center; background: var(--card); color: var(--ink); font-family: Arial, sans-serif; font-weight: 700; font-size: 14px; line-height: 1; white-space: nowrap; }
+.master-nfc-id-long { font-size: 10px; }
+.design-preview { width: 100%; max-width: 384px; aspect-ratio: 1024 / 1413; container-type: inline-size; }
+.design-preview > div { transform: scale(calc(100cqw / 384px)); transform-origin: top left; width: 384px; height: 530px; }
+@page card-design-sheet { size: 4in 5.52in; margin: 0; }
+@media print {
+  .card-designs-page main { padding: 0; margin: 0; max-width: none; }
+  .card-designs-page .designs-grid { display: block; }
+  .design-print-slot { page: card-design-sheet; break-after: page; }
+  .design-print-slot:last-child { break-after: auto; }
+  .design-preview { width: 4in; max-width: none; height: 5.52in; }
+  .design-preview > div { transform: none; }
+}
+
+/* Card Designs Canvas & Slot Positioning */
+.card-design-canvas {
+  position: relative;
+  width: 384px;
+  height: 530px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.card-design-canvas .card-artwork-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.google-card-container .google-qr-slot {
+  position: absolute;
+  left: 67%;
+  top: 47%;
+  width: 25.5%;
+  aspect-ratio: 1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+.google-card-container .google-qr-slot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.google-card-container .google-id-slot {
+  position: absolute;
+  left: 64%;
+  top: 74.5%;
+  width: 31.5%;
+  height: 3.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #111;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.instagram-card-container .instagram-qr-slot {
+  position: absolute;
+  left: 66.5%;
+  top: 51.5%;
+  width: 26.5%;
+  aspect-ratio: 1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+.instagram-card-container .instagram-qr-slot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.instagram-card-container .instagram-id-slot {
+  position: absolute;
+  left: 64%;
+  top: 78.5%;
+  width: 31.5%;
+  height: 3.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #111;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+@page {
+  size: 4in 4in;
+  margin: 0;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-card-slot {
+    break-after: page;
+    page-break-after: always;
+  }
+  .print-card-slot:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+  body {
+    background: #fff;
+  }
+}

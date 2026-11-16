@@ -1,0 +1,63 @@
+name: Supabase Pause Prevention Keep-Alive
+
+on:
+  schedule:
+    # Runs at 05:00 UTC on Sunday, Wednesday, and Friday (every 2-3 days)
+    - cron: '0 5 * * 0,3,5'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  keep-alive:
+    name: Ping Supabase Database
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Ping Supabase via Node script
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://lyltljxzbzrjqpzgsyvm.supabase.co' }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_CaP_4nRi__utSMDY992DhA_nLYO-CfN' }}
+          APP_URL: ${{ secrets.VERCEL_URL || secrets.APP_URL }}
+        run: |
+          node -e "
+          async function run() {
+            const url = process.env.SUPABASE_URL;
+            const key = process.env.SUPABASE_KEY;
+            console.log('Sending keep-alive ping to Supabase:', url);
+            
+            try {
+              // 1. Touch Supabase REST API
+              const res = await fetch(url + '/rest/v1/qr_records?select=qr_code,updated_at&limit=1', {
+                headers: {
+                  'apikey': key,
+                  'Authorization': 'Bearer ' + key
+                }
+              });
+              console.log('Supabase REST status:', res.status, res.statusText);
+              const data = await res.json();
+              console.log('Keep-alive query response:', data);
+            } catch (err) {
+              console.error('REST query error:', err);
+            }
+
+            // 2. If app URL is configured, also ping /api/keep-alive
+            if (process.env.APP_URL) {
+              try {
+                const appEndpoint = process.env.APP_URL.replace(/\/+$/, '') + '/api/keep-alive';
+                console.log('Pinging app endpoint:', appEndpoint);
+                const appRes = await fetch(appEndpoint);
+                console.log('App endpoint status:', appRes.status);
+              } catch (err) {
+                console.warn('App endpoint ping note:', err.message);
+              }
+            }
+          }
+          run();
+          "
+
