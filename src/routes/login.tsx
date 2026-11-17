@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { toast } from "sonner";
-import { Eye, EyeOff, Lock, Mail, Sparkles } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/login")({
@@ -55,13 +55,6 @@ function LoginPage() {
       subscription.unsubscribe();
     };
   }, [navigate]);
-
-  const fillAdminCredentials = () => {
-    setEmail("tapifyyy@vercel.app");
-    setPassword("tapifyyyadmin");
-    setErrorMessage(null);
-    toast.info("Admin credentials filled");
-  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -172,7 +165,7 @@ function LoginPage() {
                   required
                   autoComplete="email"
                   className="field-input pl-9"
-                  placeholder="tapifyyy@vercel.app"
+                  placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -223,27 +216,6 @@ function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Quick Helper Credentials Card */}
-          <div className="mt-6 rounded-xl border border-border/70 bg-secondary/50 p-3.5 text-xs">
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-1.5 font-medium text-foreground">
-                <Sparkles className="h-3.5 w-3.5 text-gold" />
-                <span>Admin Credentials</span>
-              </div>
-              <button
-                type="button"
-                onClick={fillAdminCredentials}
-                className="text-[11px] font-semibold text-gold hover:underline cursor-pointer"
-              >
-                Autofill
-              </button>
-            </div>
-            <div className="mt-2 space-y-1 font-mono text-[11px] text-muted-foreground">
-              <p>User: <span className="text-foreground">tapifyyy@vercel.app</span></p>
-              <p>Password: <span className="text-foreground">tapifyyyadmin</span></p>
-            </div>
-          </div>
         </div>
 
         {/* Footer with Portfolio Link */}
