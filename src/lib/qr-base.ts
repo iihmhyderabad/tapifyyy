@@ -3,4 +3,4 @@
 export const PUBLIC_SITE_URL =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_PUBLIC_SITE_URL) ||
   (typeof process !== "undefined" && process.env?.VITE_PUBLIC_SITE_URL) ||
-  "https://nfcqr.vercel.app";
+  "https://tapifyyy.vercel.app";
