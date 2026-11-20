@@ -3,8 +3,9 @@ import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { toast } from "sonner";
-import { Activity, LogOut } from "lucide-react";
+import { Activity, LogOut, SlidersHorizontal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { BulkCardDownloadModal } from "@/components/bulk-card-download-modal";
 import {
   qrRecordsQueryOptions,
   statusOf,
@@ -145,6 +146,7 @@ function DashboardPage() {
   const [previewing, setPreviewing] = useState<QrRecord | null>(null);
   const [disabling, setDisabling] = useState<QrRecord | null>(null);
   const [pinging, setPinging] = useState(false);
+  const [bulkModalOpen, setBulkModalOpen] = useState(false);
 
   async function handlePingKeepAlive() {
     setPinging(true);
@@ -420,6 +422,15 @@ function DashboardPage() {
             >
               <Activity className={`h-3.5 w-3.5 text-emerald-500 ${pinging ? "animate-spin" : ""}`} />
               <span>{pinging ? "Pinging Supabase…" : "Keep-Alive Ping"}</span>
+            </button>
+            <button
+              type="button"
+              className="btn-outline flex items-center gap-1.5 text-xs py-2 px-3"
+              onClick={() => setBulkModalOpen(true)}
+              title="Download cards or QR codes in bulk or custom ranges"
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5 text-gold" />
+              <span>Bulk / Range Download</span>
             </button>
             <button
               type="button"
@@ -816,6 +827,14 @@ function DashboardPage() {
           </a>
         </p>
       </footer>
+
+      <BulkCardDownloadModal
+        open={bulkModalOpen}
+        onClose={() => setBulkModalOpen(false)}
+        title="Google Review Cards"
+        records={records}
+        cardType="master-nfc"
+      />
     </div>
   );
 }

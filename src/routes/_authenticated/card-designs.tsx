@@ -1,13 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useRef, useState, type FormEvent } from "react";
-import { Download, Edit, LogOut, Printer, Plus, Power, X } from "lucide-react";
+import { Download, Edit, LogOut, Printer, Plus, Power, SlidersHorizontal, X } from "lucide-react";
 import { toPng } from "html-to-image";
 import { zipSync } from "fflate";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { DesignCard } from "@/components/design-card";
 import { CardExportControls } from "@/components/card-export-controls";
+import { BulkCardDownloadModal } from "@/components/bulk-card-download-modal";
 import { designRecordsQueryOptions } from "@/data/card-design-queries";
 import { type QrRecord, statusOf } from "@/data/qr-queries";
 import { cardDesigns, designCodes, DESIGN_CARD_COUNT, type CardDesign } from "@/lib/card-designs";
@@ -30,6 +31,7 @@ function CardDesignsPage() {
   const navigate = useNavigate();
   const [design, setDesign] = useState<CardDesign>("google");
   const [busy, setBusy] = useState(false);
+  const [bulkModalOpen, setBulkModalOpen] = useState(false);
   const [editing, setEditing] = useState<QrRecord | null>(null);
   const [url, setUrl] = useState("");
   const [name, setName] = useState("");
@@ -129,7 +131,9 @@ function CardDesignsPage() {
         <div><h2 className="font-display text-xl font-bold">{cardDesigns[design].name}</h2><p className="mt-1 text-sm text-muted-foreground">{records.length} cards · Front Side · NFC Print Ready</p></div>
         <div className="flex flex-wrap gap-2">
           {records.length < DESIGN_CARD_COUNT && <Button className="btn-gold" disabled={busy} onClick={generate}><Plus />Generate {DESIGN_CARD_COUNT} cards</Button>}
-          <Button className="btn-outline" disabled={busy || !records.length} onClick={() => download()}><Download />{busy ? "Preparing…" : "Download ZIP"}</Button>
+          <Button className="btn-outline flex items-center gap-1.5" disabled={!records.length} onClick={() => setBulkModalOpen(true)}>
+            <SlidersHorizontal className="h-4 w-4" />Bulk / Range Download
+          </Button>
           <Button className="btn-gold" disabled={!records.length} onClick={() => window.print()}><Printer />Print {design === "google" ? "Google" : "Instagram"} cards</Button>
         </div>
       </div>
@@ -161,5 +165,13 @@ function CardDesignsPage() {
       </p>
     </footer>
     {editing && <div className="no-print fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4"><section role="dialog" aria-modal="true" aria-labelledby="edit-card-title" className="w-full max-w-md rounded-lg border border-border bg-card p-6"><div className="mb-4 flex items-center justify-between"><h2 id="edit-card-title" className="font-display text-lg font-bold">Edit {editing.qr_code}</h2><Button variant="ghost" size="icon" aria-label="Close" onClick={() => setEditing(null)}><X /></Button></div><form onSubmit={save}><label className="field-label" htmlFor="design-name">Client / business</label><input id="design-name" className="field-input mb-4" value={name} onChange={(e) => setName(e.target.value)} /><label className="field-label" htmlFor="design-url">Destination URL</label><input id="design-url" className="field-input" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://" />{error && <p role="alert" className="mt-2 text-sm text-destructive">{error}</p>}<Button type="submit" className="btn-gold mt-5" disabled={busy}>Save changes</Button></form></section></div>}
+    <BulkCardDownloadModal
+      open={bulkModalOpen}
+      onClose={() => setBulkModalOpen(false)}
+      title={cardDesigns[design].name}
+      records={records}
+      cardType={design === "instagram" ? "instagram-design" : "google-design"}
+      getCardElement={(rec) => refs.current[rec.qr_code]}
+    />
   </div>;
 }

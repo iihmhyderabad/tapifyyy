@@ -1,15 +1,16 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { toast } from "sonner";
-import { LogOut } from "lucide-react";
+import { LogOut, SlidersHorizontal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { MasterNfcCard } from "@/components/master-nfc-card";
 import { qrRecordsQueryOptions, type QrRecord } from "@/data/qr-queries";
 import { downloadDataUrl, permanentUrl } from "@/lib/qr";
 import { Button } from "@/components/ui/button";
 import { CardExportControls } from "@/components/card-export-controls";
+import { BulkCardDownloadModal } from "@/components/bulk-card-download-modal";
 
 export const Route = createFileRoute("/_authenticated/print")({
   head: () => ({
@@ -47,6 +48,7 @@ function PrintPage() {
   const navigate = useNavigate();
   const { data: records } = useSuspenseQuery(qrRecordsQueryOptions);
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [bulkModalOpen, setBulkModalOpen] = useState(false);
 
   async function handleLogout() {
     try {
@@ -96,8 +98,13 @@ function PrintPage() {
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Button type="button" className="btn-outline" onClick={downloadAll}>
-              Download all PNGs
+            <Button
+              type="button"
+              className="btn-outline flex items-center gap-1.5"
+              onClick={() => setBulkModalOpen(true)}
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+              <span>Bulk / Range Download</span>
             </Button>
             <Button type="button" className="btn-gold" onClick={() => window.print()}>
               Print all
@@ -165,6 +172,15 @@ function PrintPage() {
           </a>
         </p>
       </footer>
+
+      <BulkCardDownloadModal
+        open={bulkModalOpen}
+        onClose={() => setBulkModalOpen(false)}
+        title="Google Review NFC Cards (4×4)"
+        records={records}
+        cardType="master-nfc"
+        getCardElement={(rec) => cardRefs.current[rec.qr_code]}
+      />
     </div>
   );
 }
