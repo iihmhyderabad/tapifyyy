@@ -53,8 +53,9 @@ function CardDesignsPage() {
   async function png(record: QrRecord) {
     const el = refs.current[record.qr_code];
     if (!el) throw new Error("Card unavailable");
+    const target = (el.firstElementChild instanceof HTMLElement ? el.firstElementChild : el);
     await document.fonts.ready;
-    return toPng(el, { width: el.offsetWidth, height: el.offsetHeight, pixelRatio: 3.125 });
+    return toPng(target, { width: 384, height: 384, pixelRatio: 3.125, backgroundColor: "#ffffff" });
   }
 
   async function download(record?: QrRecord) {
