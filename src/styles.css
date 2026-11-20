@@ -115,15 +115,15 @@
 .master-nfc-qr svg { display: block; width: 100%; height: 100%; }
 .master-nfc-id { position: absolute; left: 60%; top: 77.9%; width: 30.2%; height: 4.1%; display: flex; align-items: center; justify-content: center; background: var(--card); color: var(--ink); font-family: Arial, sans-serif; font-weight: 700; font-size: 14px; line-height: 1; white-space: nowrap; }
 .master-nfc-id-long { font-size: 10px; }
-.design-preview { width: 100%; max-width: 384px; aspect-ratio: 1024 / 1413; container-type: inline-size; }
-.design-preview > div { transform: scale(calc(100cqw / 384px)); transform-origin: top left; width: 384px; height: 530px; }
-@page card-design-sheet { size: 4in 5.52in; margin: 0; }
+.design-preview { width: 100%; max-width: 384px; aspect-ratio: 1 / 1; container-type: inline-size; }
+.design-preview > div { transform: scale(calc(100cqw / 384px)); transform-origin: top left; width: 384px; height: 384px; }
+@page card-design-sheet { size: 4in 4in; margin: 0; }
 @media print {
   .card-designs-page main { padding: 0; margin: 0; max-width: none; }
   .card-designs-page .designs-grid { display: block; }
   .design-print-slot { page: card-design-sheet; break-after: page; }
   .design-print-slot:last-child { break-after: auto; }
-  .design-preview { width: 4in; max-width: none; height: 5.52in; }
+  .design-preview { width: 4in; max-width: none; height: 4in; }
   .design-preview > div { transform: none; }
 }
 
@@ -131,7 +131,7 @@
 .card-design-canvas {
   position: relative;
   width: 384px;
-  height: 530px;
+  height: 384px;
   overflow: hidden;
   border-radius: 12px;
 }
@@ -143,8 +143,8 @@
 
 .google-card-container .google-qr-slot {
   position: absolute;
-  left: 67%;
-  top: 47%;
+  left: 65%;
+  top: 53.5%;
   width: 25.5%;
   aspect-ratio: 1;
   background: #ffffff;
@@ -160,10 +160,10 @@
 }
 .google-card-container .google-id-slot {
   position: absolute;
-  left: 64%;
-  top: 74.5%;
-  width: 31.5%;
-  height: 3.5%;
+  left: 64.5%;
+  top: 80.5%;
+  width: 26.5%;
+  height: 3.8%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,9 +178,9 @@
 
 .instagram-card-container .instagram-qr-slot {
   position: absolute;
-  left: 66.5%;
-  top: 51.5%;
-  width: 26.5%;
+  left: 63.8%;
+  top: 62.7%;
+  width: 24.4%;
   aspect-ratio: 1;
   background: #ffffff;
   display: flex;
@@ -195,10 +195,10 @@
 }
 .instagram-card-container .instagram-id-slot {
   position: absolute;
-  left: 64%;
-  top: 78.5%;
-  width: 31.5%;
-  height: 3.5%;
+  left: 63.8%;
+  top: 91.5%;
+  width: 24.4%;
+  height: 3.8%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -206,7 +206,7 @@
   color: #111;
   font-family: Arial, sans-serif;
   font-weight: 700;
-  font-size: 11px;
+  font-size: 10px;
   border-radius: 3px;
   white-space: nowrap;
 }

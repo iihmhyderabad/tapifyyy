@@ -544,7 +544,7 @@ export function BulkCardDownloadModal({
           left: "-10000px",
           top: 0,
           width: "384px",
-          height: cardType === "master-nfc" ? "384px" : "530px",
+          height: "384px",
           pointerEvents: "none",
           opacity: 0,
         }}
