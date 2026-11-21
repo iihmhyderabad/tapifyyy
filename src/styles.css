@@ -143,9 +143,9 @@
 
 .google-card-container .google-qr-slot {
   position: absolute;
-  left: 65%;
-  top: 53.5%;
-  width: 25.5%;
+  left: 63.4%;
+  top: 67.1%;
+  width: 21%;
   aspect-ratio: 1;
   background: #ffffff;
   display: flex;
@@ -160,10 +160,10 @@
 }
 .google-card-container .google-id-slot {
   position: absolute;
-  left: 64.5%;
-  top: 80.5%;
-  width: 26.5%;
-  height: 3.8%;
+  left: 62.9%;
+  top: 88.8%;
+  width: 22%;
+  height: 3%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,16 +171,16 @@
   color: #111;
   font-family: Arial, sans-serif;
   font-weight: 700;
-  font-size: 11px;
+  font-size: 10px;
   border-radius: 3px;
   white-space: nowrap;
 }
 
 .instagram-card-container .instagram-qr-slot {
   position: absolute;
-  left: 63.8%;
-  top: 62.7%;
-  width: 24.4%;
+  left: 64.4%;
+  top: 60%;
+  width: 23%;
   aspect-ratio: 1;
   background: #ffffff;
   display: flex;
@@ -195,10 +195,10 @@
 }
 .instagram-card-container .instagram-id-slot {
   position: absolute;
-  left: 63.8%;
-  top: 91.5%;
-  width: 24.4%;
-  height: 3.8%;
+  left: 63.9%;
+  top: 84.6%;
+  width: 24%;
+  height: 3%;
   display: flex;
   align-items: center;
   justify-content: center;
