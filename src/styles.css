@@ -260,7 +260,7 @@
 .google-card-container .google-id-slot {
   position: absolute;
   left: 62.9%;
-  top: calc(88.8% - 7px);
+  top: calc(88.8% - 5.25px);
   width: 22%;
   height: 3%;
   display: flex;
