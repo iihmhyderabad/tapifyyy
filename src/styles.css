@@ -90,41 +90,136 @@
   .btn-gold {
     @apply inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
   }
+
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
   }
+
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-accent hover:text-foreground;
   }
+
   .field-label {
     @apply mb-1.5 block text-sm font-semibold text-foreground;
   }
+
   .field-input {
     @apply w-full rounded-lg border border-input bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40;
   }
+
   .stat-card {
     @apply rounded-2xl border border-border bg-card p-5 shadow-sm;
   }
 }
 
 /* 4x4 inch NFC card printing: one card per page, zero margins */
-.card-export-staging { position: fixed; left: -10000px; top: 0; width: 384px; height: 384px; pointer-events: none; }
-.master-nfc-card { position: relative; width: 384px; height: 384px; overflow: hidden; }
-.master-nfc-artwork { display: block; width: 100%; height: 100%; }
-.master-nfc-qr { position: absolute; left: 60%; top: 41.9%; width: 30.2%; height: 30.2%; background: var(--card); }
-.master-nfc-qr svg { display: block; width: 100%; height: 100%; }
-.master-nfc-id { position: absolute; left: 60%; top: 77.9%; width: 30.2%; height: 4.1%; display: flex; align-items: center; justify-content: center; background: var(--card); color: var(--ink); font-family: Arial, sans-serif; font-weight: 700; font-size: 14px; line-height: 1; white-space: nowrap; }
-.master-nfc-id-long { font-size: 10px; }
-.design-preview { width: 100%; max-width: 384px; aspect-ratio: 1 / 1; container-type: inline-size; }
-.design-preview > div { transform: scale(calc(100cqw / 384px)); transform-origin: top left; width: 384px; height: 384px; }
-@page card-design-sheet { size: 4in 4in; margin: 0; }
+.card-export-staging {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+  width: 384px;
+  height: 384px;
+  pointer-events: none;
+}
+
+.master-nfc-card {
+  position: relative;
+  width: 384px;
+  height: 384px;
+  overflow: hidden;
+}
+
+.master-nfc-artwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.master-nfc-qr {
+  position: absolute;
+  left: 60%;
+  top: 41.9%;
+  width: 30.2%;
+  height: 30.2%;
+  background: var(--card);
+}
+
+.master-nfc-qr svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.master-nfc-id {
+  position: absolute;
+  left: 60%;
+  top: 77.9%;
+  width: 30.2%;
+  height: 4.1%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  color: var(--ink);
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.master-nfc-id-long {
+  font-size: 10px;
+}
+
+.design-preview {
+  width: 100%;
+  max-width: 384px;
+  aspect-ratio: 1 / 1;
+  container-type: inline-size;
+}
+
+.design-preview>div {
+  transform: scale(calc(100cqw / 384px));
+  transform-origin: top left;
+  width: 384px;
+  height: 384px;
+}
+
+@page card-design-sheet {
+  size: 4in 4in;
+  margin: 0;
+}
+
 @media print {
-  .card-designs-page main { padding: 0; margin: 0; max-width: none; }
-  .card-designs-page .designs-grid { display: block; }
-  .design-print-slot { page: card-design-sheet; break-after: page; }
-  .design-print-slot:last-child { break-after: auto; }
-  .design-preview { width: 4in; max-width: none; height: 4in; }
-  .design-preview > div { transform: none; }
+  .card-designs-page main {
+    padding: 0;
+    margin: 0;
+    max-width: none;
+  }
+
+  .card-designs-page .designs-grid {
+    display: block;
+  }
+
+  .design-print-slot {
+    page: card-design-sheet;
+    break-after: page;
+  }
+
+  .design-print-slot:last-child {
+    break-after: auto;
+  }
+
+  .design-preview {
+    width: 4in;
+    max-width: none;
+    height: 4in;
+  }
+
+  .design-preview>div {
+    transform: none;
+  }
 }
 
 /* Card Designs Canvas & Slot Positioning */
@@ -135,6 +230,7 @@
   overflow: hidden;
   border-radius: 12px;
 }
+
 .card-design-canvas .card-artwork-img {
   display: block;
   width: 100%;
@@ -144,8 +240,8 @@
 .google-card-container .google-qr-slot {
   position: absolute;
   left: 63.4%;
-  top: 67.1%;
-  width: 21%;
+  top: calc(67.1% - 2px);
+  width: 20.5%;
   aspect-ratio: 1;
   background: #ffffff;
   display: flex;
@@ -153,15 +249,17 @@
   justify-content: center;
   border-radius: 4px;
 }
+
 .google-card-container .google-qr-slot svg {
   display: block;
   width: 100%;
   height: 100%;
 }
+
 .google-card-container .google-id-slot {
   position: absolute;
   left: 62.9%;
-  top: 88.8%;
+  top: calc(88.8% - 3px);
   width: 22%;
   height: 3%;
   display: flex;
@@ -188,11 +286,13 @@
   justify-content: center;
   border-radius: 4px;
 }
+
 .instagram-card-container .instagram-qr-slot svg {
   display: block;
   width: 100%;
   height: 100%;
 }
+
 .instagram-card-container .instagram-id-slot {
   position: absolute;
   left: 63.9%;
@@ -210,6 +310,7 @@
   border-radius: 3px;
   white-space: nowrap;
 }
+
 @page {
   size: 4in 4in;
   margin: 0;
@@ -219,14 +320,17 @@
   .no-print {
     display: none !important;
   }
+
   .print-card-slot {
     break-after: page;
     page-break-after: always;
   }
+
   .print-card-slot:last-child {
     break-after: auto;
     page-break-after: auto;
   }
+
   body {
     background: #fff;
   }
