@@ -240,7 +240,7 @@
 .google-card-container .google-qr-slot {
   position: absolute;
   left: 63.4%;
-  top: calc(67.1% - 7px);
+  top: calc(67.1% - 6px);
   width: 20.5%;
   height: 20.5%;
   aspect-ratio: 1;
@@ -260,7 +260,7 @@
 .google-card-container .google-id-slot {
   position: absolute;
   left: 62.9%;
-  top: calc(88.8% - 8px);
+  top: calc(88.8% - 7px);
   width: 22%;
   height: 3%;
   display: flex;
